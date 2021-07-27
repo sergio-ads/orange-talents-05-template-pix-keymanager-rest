@@ -16,6 +16,7 @@ class GrpcExceptionHandler: ExceptionHandler<StatusRuntimeException, HttpRespons
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
 
     override fun handle(request: HttpRequest<*>, exception: StatusRuntimeException): HttpResponse<Any> {
+
         val statusCode = exception.status.code
         val statusDescription = exception.status.description ?: ""
         val(httpStatus, message) = when(statusCode) {

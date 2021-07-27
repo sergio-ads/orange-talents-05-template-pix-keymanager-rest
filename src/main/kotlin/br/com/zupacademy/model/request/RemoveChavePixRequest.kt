@@ -6,9 +6,9 @@ import io.micronaut.core.annotation.Introspected
 import javax.validation.constraints.NotBlank
 
 @Introspected
-class RemoveChavePixRequest(
-    @NotBlank @ValidUUID val clienteId: String?,
-    @NotBlank @ValidUUID val pixId: String?,
+data class RemoveChavePixRequest(
+    @field:NotBlank @field:ValidUUID val clienteId: String?,
+    @field:NotBlank @field:ValidUUID val pixId: String?,
 ) {
 
     fun toModel(): RemoveChavePixRequestGRPC {
