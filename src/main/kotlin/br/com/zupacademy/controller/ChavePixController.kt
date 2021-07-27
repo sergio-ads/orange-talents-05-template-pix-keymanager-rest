@@ -3,11 +3,9 @@ package br.com.zupacademy.controller
 import br.com.zupacademy.grpc.*
 import br.com.zupacademy.model.request.RegistraChavePixRequest
 import br.com.zupacademy.model.request.RemoveChavePixRequest
+import br.com.zupacademy.model.response.DetalheChavePixResponse
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Delete
-import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
 import javax.validation.Valid
@@ -28,7 +26,6 @@ class ChavePixController(
         val grpcResponse = registraClient.registraGRPC(request.toModel()).also {
             LOGGER.info("Criando nova chave pix com $request")
         }
-
         return HttpResponse.created(HttpResponse.uri("/api/v1/pix/${grpcResponse.clienteId}/${grpcResponse.pixId}"))
     }
 
@@ -37,8 +34,23 @@ class ChavePixController(
         val grpcResponse = removeClient.removeGRPC(request.toModel()).also {
             LOGGER.info("Apagando chave pix com $request")
         }
-
         return HttpResponse.ok()
+    }
+
+    @Get("/{clienteId}/{pixId}")
+    fun consulta(@PathVariable clienteId: String?, @PathVariable pixId: String?): HttpResponse<Any> {
+        val grpcResponse = consultaClient.consultaGRPC(ConsultaChavePixRequestGRPC.newBuilder()
+            .setPixId(
+                ConsultaChavePixRequestGRPC.FiltroPixId.newBuilder()
+                    .setClienteId(clienteId)
+                    .setPixId(pixId)
+                    .build()
+            )
+            .build()
+        ).also {
+            LOGGER.info("Consultando chave pix com clienteId: $clienteId, pixId: $pixId")
+        }
+        return HttpResponse.ok(DetalheChavePixResponse(grpcResponse))
     }
 
 }
