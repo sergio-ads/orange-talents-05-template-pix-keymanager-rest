@@ -53,8 +53,9 @@ internal class RegistraChavePixControllerTest(
 
         // Executa
         val request = HttpRequest.POST(
-            "/api/v1/pix/$RANDOM_CLIENT_ID",
+            "/api/v1/pix",
             RegistraChavePixRequest(
+                clienteId = RANDOM_CLIENT_ID,
                 tipoDeConta = TipoDeConta.CONTA_CORRENTE,
                 chave = "tiago.freitas@zup.com.br",
                 tipoDeChave = TipoDeChave.EMAIL
@@ -72,8 +73,8 @@ internal class RegistraChavePixControllerTest(
     fun `deve informar erro devido ser null`() {
         // Executa
         val request = HttpRequest.POST(
-            "/api/v1/pix/$RANDOM_CLIENT_ID",
-            RegistraChavePixRequest(null, null, null)
+            "/api/v1/pix",
+            RegistraChavePixRequest(null, null, null, null)
         )
         val thrown = assertThrows<HttpClientResponseException> {
             httpClient.toBlocking().exchange(request, RegistraChavePixRequest::class.java)
@@ -89,8 +90,8 @@ internal class RegistraChavePixControllerTest(
     fun `deve informar erro devido nao ser uma chave pix valida`() {
         // Executa
         val request = HttpRequest.POST(
-            "/api/v1/pix/$RANDOM_CLIENT_ID",
-            RegistraChavePixRequest(TipoDeConta.CONTA_CORRENTE, UUID.randomUUID().toString(), TipoDeChave.EMAIL)
+            "/api/v1/pix",
+            RegistraChavePixRequest(RANDOM_CLIENT_ID, TipoDeConta.CONTA_CORRENTE, UUID.randomUUID().toString(), TipoDeChave.EMAIL)
         )
         val thrown = assertThrows<HttpClientResponseException> {
             httpClient.toBlocking().exchange(request, RegistraChavePixRequest::class.java)
