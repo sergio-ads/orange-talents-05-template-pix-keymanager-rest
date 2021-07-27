@@ -22,11 +22,12 @@ class ChavePixController(
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
 
     @Post
-    fun create(
+    fun cadastra(
         clienteId: String,
         @Valid @Body request: RegistraChavePixRequest
     ): HttpResponse<Any> {
         LOGGER.info("$clienteId: criando nova chave pix com $request")
+
         val grpcResponse = registraClient.registraGRPC(request.toModel(clienteId))
 
         return HttpResponse.created(HttpResponse.uri("/api/v1/pix/$clienteId/${grpcResponse.pixId}"))

@@ -1,4 +1,4 @@
-package br.com.zupacademy.model.enum
+package br.com.zupacademy.model
 
 import br.com.zupacademy.grpc.TipoDeChaveGRPC
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator
