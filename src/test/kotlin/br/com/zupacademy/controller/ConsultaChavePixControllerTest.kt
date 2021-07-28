@@ -63,6 +63,7 @@ class ConsultaChavePixControllerTest(
             .exchange(request, ConsultaChavePixResponse::class.java)
 
         // Valida
+        assertThat(response.status, equalTo(HttpStatus.OK))
         with(response.body.get()) {
             assertThat(this.pixId, equalTo(CHAVE_EXISTENTE.pixId))
         }
