@@ -4,6 +4,8 @@ import br.com.zupacademy.grpc.*
 import br.com.zupacademy.model.request.RegistraChavePixRequest
 import br.com.zupacademy.model.request.RemoveChavePixRequest
 import br.com.zupacademy.model.response.DetalheChavePixResponse
+import br.com.zupacademy.validation.ValidUUID
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
@@ -38,7 +40,10 @@ class ChavePixController(
     }
 
     @Get("/{clienteId}/{pixId}")
-    fun consulta(@PathVariable clienteId: String?, @PathVariable pixId: String?): HttpResponse<Any> {
+    fun consulta(
+        @PathVariable @ValidUUID clienteId: String?,
+        @PathVariable @ValidUUID pixId: String?
+    ): HttpResponse<Any> {
         val grpcResponse = consultaClient.consultaGRPC(ConsultaChavePixRequestGRPC.newBuilder()
             .setPixId(
                 ConsultaChavePixRequestGRPC.FiltroPixId.newBuilder()
