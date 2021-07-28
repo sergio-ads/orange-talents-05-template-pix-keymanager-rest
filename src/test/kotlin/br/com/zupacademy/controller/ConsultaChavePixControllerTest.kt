@@ -1,7 +1,7 @@
 package br.com.zupacademy.controller
 
 import br.com.zupacademy.grpc.*
-import br.com.zupacademy.model.request.RemoveChavePixRequest
+import br.com.zupacademy.model.response.ConsultaChavePixResponse
 import com.google.protobuf.Timestamp
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -9,7 +9,6 @@ import io.micronaut.context.annotation.Factory
 import io.micronaut.context.annotation.Replaces
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
@@ -108,7 +107,6 @@ class ConsultaChavePixControllerTest(
 
         // Valida
         assertThat(thrown.status, equalTo(HttpStatus.BAD_REQUEST))
-        assertThat(thrown.message, equalTo("Chave Pix não encontrada"))
     }
 
     private fun criaResponseGrpc():ConsultaChavePixResponseGRPC {
@@ -149,22 +147,3 @@ class ConsultaChavePixControllerTest(
     }
 
 }
-
-@Introspected
-data class ConsultaChavePixResponse(
-    val pixId: String?,
-    val tipo: TipoDeChaveGRPC?,
-    val chave: String?,
-    val criadaEm: LocalDateTime?,
-    val tipoConta: TipoDeContaGRPC?,
-    val conta: ConsultaChavePixContaResponse?
-)
-
-@Introspected
-data class ConsultaChavePixContaResponse(
-    val instituicao: String?,
-    val nomeDoTitular: String?,
-    val cpfDoTitular: String?,
-    val agencia: String?,
-    val numero: String?
-)
