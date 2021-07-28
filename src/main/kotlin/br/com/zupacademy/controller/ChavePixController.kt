@@ -3,9 +3,9 @@ package br.com.zupacademy.controller
 import br.com.zupacademy.grpc.*
 import br.com.zupacademy.model.request.RegistraChavePixRequest
 import br.com.zupacademy.model.request.RemoveChavePixRequest
+import br.com.zupacademy.model.response.ChavePixResponse
 import br.com.zupacademy.model.response.DetalheChavePixResponse
 import br.com.zupacademy.validation.ValidUUID
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
@@ -56,6 +56,17 @@ class ChavePixController(
             LOGGER.info("Consultando chave pix com clienteId: $clienteId, pixId: $pixId")
         }
         return HttpResponse.ok(DetalheChavePixResponse(grpcResponse))
+    }
+
+    @Get("/{clienteId}")
+    fun lista(@PathVariable @ValidUUID clienteId: String?): HttpResponse<Any> {
+        val grpcResponse = listaClient.listaGRPC(ListaChavePixRequestGRPC.newBuilder()
+            .setClienteId(clienteId)
+            .build()
+        ).also {
+            LOGGER.info("Listando chaves pix do clienteId: $clienteId")
+        }
+        return HttpResponse.ok(ChavePixResponse(grpcResponse))
     }
 
 }
