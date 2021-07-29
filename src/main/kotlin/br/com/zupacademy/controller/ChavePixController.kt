@@ -33,7 +33,7 @@ class ChavePixController(
 
     @Delete
     fun apaga(@Valid @Body request: RemoveChavePixRequest): HttpResponse<Any> {
-        val grpcResponse = removeClient.removeGRPC(request.toModel()).also {
+        removeClient.removeGRPC(request.toModel()).also {
             LOGGER.info("Apagando chave pix com $request")
         }
         return HttpResponse.ok()

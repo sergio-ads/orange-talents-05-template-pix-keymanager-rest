@@ -8,15 +8,15 @@ grpc:
     max-retry-attempts: 10
   channels:
     keyManager:
-      address: '${KEY_MANAGER_HOST:localhost}:${KEY_MANAGER_PORT:50051}'
+      address: ${KEY_MANAGER_ADDRESS:`localhost:50051`}
 
-datasources:
-  default:
-    url: ${MYSQL_SERVER:`jdbc:mysql://localhost:3306/keymanager?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=America/Sao_Paulo&useSSL=false&allowPublicKeyRetrieval=true`}
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: root
-    password: Root@12345
-    dialect: MYSQL
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+#datasources:
+#  default:
+#    url: ${DB_HOST:`jdbc:postgresql://localhost:5432/keymanager`}
+#    username: ${DB_USER:root}
+#    password: ${DB_PASS:Root@12345}
+#    driverClassName: org.postgresql.Driver
+#    dialect: POSTGRES
+#jpa.default.properties.hibernate.hbm2ddl.auto: update
 
 jackson.serialization.writeDatesAsTimestamps: false
